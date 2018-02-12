@@ -1,0 +1,10 @@
+﻿<#@ template language="C#" inherits="TextTransformation" hostSpecific="false" #>
+<#@ import namespace="eSoft.T4.Core" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#+
+private void Core_T4_Placeholder()
+{
+}
+#>

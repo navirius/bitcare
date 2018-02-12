@@ -1,0 +1,60 @@
+﻿
+We store type of serialized object when it has derived types only and we have to distinguish them somehow...
+
+
+1. Simple type config byte (from b0 to b7):
+	1 bit for special value encoding (like 0, null or default - depends on type)
+	3 bits depends on specific type usage:
+	- for char, byte, boolean does nothing
+	- for short,int and long (64 bits) it says on that 3 bits on what number of bytes the value has been stored. 111 = 8 bytes so we add 1 here also
+	- for string it says on next 3 bits how many bytes the string size has been stored. See above. 
+	- for BigInteger (.Net 4) it says on 3 bits on how many bytes the string size has been encoded. See above.
+
+
+2. Complex type config byte:
+
+
+
+Data format of serialized object:
+- config byte
+- a) if it's simple type then data of object only 
+- b) if it's complex type then size bytes according to config byte, then for real instance of
+
+
+
+
+
+
+1. Config byte from lsb to msb
+First bit (b0) says if it's complex type (0 = simple type like string)
+
+a) simple type
+1 bit with value 0 for type class (simple type - value is 0)
+3 bits for id of simple type.
+1 bit for special value encoding (like 0, null or default - depends on type)
+3 bits depends on specific type usage:
+- for char, byte, boolean does nothing
+- for short,int and long (64 bits) it says on next 3 bits on what number of bytes the value has been stored. 
+  111 = 8 bytes so we add 1 here also
+- for string it says on next 3 bits how many bytes the string size has been stored. See above. 
+- for BigInteger (.Net 4) it says on 3 bits on how many bytes the string size has been encoded. See above.
+
+b) complex type
+Config is stored as ushort (16 bits)
+1 bit with value 1 for type class (complex type - in such case it's value 1)
+2 bits for size of internal TypeID bytes. When class uses a few types only then the one byte only is sufficient, 0 = 1 byte so we add one to this value
+2 bits for size of FieldBitMaps size bytes. If size of bitmap is stored on 4 bytes, then the bits have 11 (so we add 1 also here)
+2 bits for object ID size. 
+2 bits for size of serialized data size bytes. If size of data is stored on 4 bytes, then the bits have 11 (so we add 1 also here)
+1 bit to mark, that object with this provided ID has been stored/retrieved already and should be reused from cache
+
+1 bit for info, if it's original type or after the conversion (UnknownType=1). Then we should store original type name (string) as part of serialization...
+        
+Every field that can have null value is represented in the map as one bit. 
+Additionally fields that have well known default values store this info in additional bit 
+(string can be empty or null and it's very common situation, int can be 0, int? can be null or 0 and so on)
+
+ 00 - type ID has been stored in one byte
+ 01 - size of FieldBitMap has been stored on 1 byte
+
+ 

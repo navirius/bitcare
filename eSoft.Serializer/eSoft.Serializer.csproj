@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{408526B5-1A5E-4F27-9686-A0DB071F5983}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eSoft.Serializer</RootNamespace>
+    <AssemblyName>eSoft.Serializer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\UnknownPolymorphicTypeException.cs" />
+    <Compile Include="Infrastructure\Accessors\GetterSetterGeneric.cs" />
+    <Compile Include="Infrastructure\Accessors\FieldAccessor.cs" />
+    <Compile Include="Infrastructure\Helpers\BitToolkit.cs" />
+    <Compile Include="Infrastructure\PolymorphicType\PolymorphicFieldMapping.cs" />
+    <Compile Include="WKTSerializers.cs" />
+    <Compile Include="TypeSerializers\CachedSerializedObject.cs" />
+    <Compile Include="TypeSerializers\Collections\SZArray\StorageFormats\EmptyArray.cs" />
+    <Compile Include="TypeSerializers\Collections\SZArray\StorageFormats\NormalArray.cs" />
+    <Compile Include="TypeSerializers\Collections\SZArray\StorageFormats\NullArray.cs" />
+    <Compile Include="TypeSerializers\Collections\SZArray\StorageFormats\ArrayStorageBase.cs" />
+    <Compile Include="TypeSerializers\Collections\SZArray\SZArrayExport.cs" />
+    <Compile Include="TypeSerializers\Collections\SZArray\SZArraySerializer.cs" />
+    <Compile Include="TypeSerializers\Collections\SZRefArray\SZRefArraySerializer.cs" />
+    <Compile Include="TypeSerializers\ComplexType\StorageFormats\CachedObject.cs" />
+    <Compile Include="TypeSerializers\ComplexType\StorageFormats\NormalObject.cs" />
+    <Compile Include="TypeSerializers\ComplexType\StorageFormats\NullObject.cs" />
+    <Compile Include="TypeSerializers\ComplexType\StorageFormats\ComplexTypeStorageBase.cs" />
+    <Compile Include="TypeSerializers\ICachedObjectSerializer.cs" />
+    <Compile Include="TypeSerializers\ICachedSerializedObject.cs" />
+    <Compile Include="TypeSerializers\IObjectSerializer.cs" />
+    <Compile Include="TypeSerializers\ISerializedObject.cs" />
+    <Compile Include="TypeSerializers\SerializedObject.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Boolean\BooleanExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Boolean\BooleanSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Boolean\StorageFormats\BooleanStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Boolean\StorageFormats\FalseValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Boolean\StorageFormats\TrueValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Byte\ByteExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Byte\ByteSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Byte\StorageFormats\ByteStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Byte\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Byte\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\DateTimeOffset\DateTimeOffsetExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\DateTimeOffset\DateTimeOffsetSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\DateTime\DateTimeExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\DateTime\DateTimeSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Decimal\DecimalExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Decimal\DecimalSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Decimal\StorageFormats\DecimalStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Decimal\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Decimal\StorageFormats\NegativeValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Decimal\StorageFormats\PositiveValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Double\DoubleExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Double\DoubleSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Double\StorageFormats\DoubleStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Double\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Double\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Guid\GuidExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Guid\GuidSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Guid\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Guid\StorageFormats\GuidStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Guid\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int16\Int16Export.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int16\Int16Serializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int16\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int16\StorageFormats\Int16StorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int16\StorageFormats\ValueInConfig.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int16\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int32\Int32Export.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int32\Int32Serializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int32\StorageFormats\DefaultValue.cs" />
+    <Compile Include="Infrastructure\Helpers\SizeCalculator.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int32\StorageFormats\Int32StorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int32\StorageFormats\ValueInConfig.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int32\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="Infrastructure\ConfigBits.cs" />
+    <Compile Include="Infrastructure\SerializationStores\Base\ByteArray.cs" />
+    <Compile Include="Infrastructure\SerializationStores\PackedDataSerStore.cs" />
+    <Compile Include="Infrastructure\SerializationStores\StorageFormatDataSerStore.cs" />
+    <Compile Include="Infrastructure\SizeInfo.cs" />
+    <Compile Include="Infrastructure\SerializationStores\StorageFormatIdsSerStore.cs" />
+    <Compile Include="Infrastructure\StorageFormat\FormatBase.cs" />
+    <Compile Include="Infrastructure\StorageFormat\IStorageFormat.cs" />
+    <Compile Include="Infrastructure\StorageFormat\IStrongFormatType.cs" />
+    <Compile Include="ISerializerStorage.cs" />
+    <Compile Include="ObjectDictionaries\RefType\IRefTypeObjectsDictionary.cs" />
+    <Compile Include="ObjectDictionaries\ValType\IValueTypeObjectsDictionary.cs" />
+    <Compile Include="ObjectDictionaries\RefType\RefTypeObjectsDictionary.cs" />
+    <Compile Include="ObjectDictionaries\ValType\ValueTypeObjectsDictionary.cs" />
+    <Compile Include="Compression\CompressionFactory.cs" />
+    <Compile Include="Compression\ICompression.cs" />
+    <Compile Include="Compression\ICompressionFactory.cs" />
+    <Compile Include="Compression\QuickLZ.cs" />
+    <Compile Include="Compression\InternalCompression.cs" />
+    <Compile Include="Infrastructure\SerializationStores\Base\BinaryConfigArray.cs" />
+    <Compile Include="Exceptions\SerializerException.cs" />
+    <Compile Include="Exceptions\UnsupportedCompressionTypeException.cs" />
+    <Compile Include="TypeSerializers\ComplexType\ComplexTypeSerializerBase.cs" />
+    <Compile Include="SerializationUnits\ValueTypeSerializationUnit.cs" />
+    <Compile Include="SerializationUnits\RefTypeSerializationUnit.cs" />
+    <Compile Include="Serializer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationUnits\BaseSerializationUnit.cs" />
+    <Compile Include="SerializerConfiguration.cs" />
+    <Compile Include="SpecialSerializers\UnknownTypeSerializer.cs" />
+    <Compile Include="ObjectDictionaries\ValType\ValTypeDictEntry.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Char\CharExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Char\CharSerializer.cs" />
+    <Compile Include="Infrastructure\PolymorphicType\PolymorphicTypeMapping.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int64\Int64Export.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int64\Int64Serializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int64\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int64\StorageFormats\Int64StorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int64\StorageFormats\ValueInConfig.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Int64\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Object\ObjectExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Object\ObjectSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Object\StorageFormats\ObjectStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Object\StorageFormats\NullValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Object\StorageFormats\ObjectValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\SByte\SByteExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\SByte\SByteSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Single\SingleExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Single\SingleSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Single\StorageFormats\DefaultValue.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Single\StorageFormats\SingleStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\Single\StorageFormats\ValueInDataStream.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StorageFormats\CachedString.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StorageFormats\EmptyString.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StorageFormats\NormalString.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StorageFormats\NullString.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StorageFormats\StringStorageBase.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StringExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\String\StringSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\TimeSpan\TimeSpanExport.cs" />
+    <Compile Include="TypeSerializers\WellKnown\TimeSpan\TimeSpanSerializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\UInt16\UInt16Export.cs" />
+    <Compile Include="TypeSerializers\WellKnown\UInt16\UInt16Serializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\UInt32\UInt32Export.cs" />
+    <Compile Include="TypeSerializers\WellKnown\UInt32\UInt32Serializer.cs" />
+    <Compile Include="TypeSerializers\WellKnown\UInt64\UInt64Export.cs" />
+    <Compile Include="TypeSerializers\WellKnown\UInt64\UInt64Serializer.cs" />
+    <Compile Include="TypeSerializers\Factory\WKTSerializationFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Compression\CompressionLibraries.txt" />
+    <Content Include="SerializationFormat.txt" />
+    <Content Include="TypeSerializers\WellKnown\NotSerializedTypes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_NameIt_BitCareSerializer\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

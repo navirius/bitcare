@@ -1,0 +1,19 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" inherits="eSoft.T4.Serializer.ByPublicMembers.Serializer" #>
+<#@ assembly name="$(SolutionDir)\eSoft.T4.Core\$(OutDir)\eSoft.T4.Core.dll" #>
+<#@ assembly name="$(SolutionDir)\eSoft.T4.Serializer\$(OutDir)\eSoft.T4.Serializer.dll" #>
+<#@ assembly name="$(SolutionDir)\PerfTests.Classes\$(OutDir)\PerfTests.Classes.dll" #>
+<#@ import namespace="eSoft.T4.Serializer" #>
+<#@ output extension=".txt" #>
+
+<# 
+InitTransformation(Host);
+
+SplitIntoMultipleFiles=true;
+FileNamePrefix="BCS_ByPubMembers";
+SerializerNamespace="BitCareSerializer.ByPubMembers.v1";
+SerializerClassName="PersonSerializer";
+RegisterTypeToSerialize(typeof(PerfTests.Classes.AzureEntityFramework.Person));
+
+GenerateSerializers();
+
+#>

@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eSoft.T4.Core", "eSoft.T4.Core\eSoft.T4.Core.csproj", "{2739CCE9-D027-42AB-B632-AAF44F2B4F29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eSoft.T4.Serializer", "eSoft.T4.Serializer\eSoft.T4.Serializer.csproj", "{D969D61B-10DE-4BB4-96FE-D20379B61B39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTests.Classes", "PerfTests.Classes\PerfTests.Classes.csproj", "{5E49E690-46DC-4085-AC7F-D83E4EA4BA8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTests.GeneratedSerializers", "PerfTests.GeneratedSerializers\PerfTests.GeneratedSerializers.csproj", "{80E2C216-6A01-440D-8EC9-FBE52A7EEF4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTests.TestApp", "PerfTests.TestApp\PerfTests.TestApp.csproj", "{30581588-EFDE-4842-986F-5952C9648DF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eSoft.Serializer", "eSoft.Serializer\eSoft.Serializer.csproj", "{408526B5-1A5E-4F27-9686-A0DB071F5983}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs17
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = eSoft.Serializer\\eSoft.Serializer.csproj
+		SccProjectName1 = eSoft.Serializer
+		SccLocalPath1 = eSoft.Serializer
+		SccProjectUniqueName2 = eSoft.T4.Core\\eSoft.T4.Core.csproj
+		SccProjectName2 = eSoft.T4.Core
+		SccLocalPath2 = eSoft.T4.Core
+		SccProjectUniqueName3 = eSoft.T4.Serializer\\eSoft.T4.Serializer.csproj
+		SccProjectName3 = eSoft.T4.Serializer
+		SccLocalPath3 = eSoft.T4.Serializer
+		SccProjectUniqueName4 = PerfTests.Classes\\PerfTests.Classes.csproj
+		SccProjectName4 = PerfTests.Classes
+		SccLocalPath4 = PerfTests.Classes
+		SccProjectUniqueName5 = PerfTests.GeneratedSerializers\\PerfTests.GeneratedSerializers.csproj
+		SccProjectName5 = PerfTests.GeneratedSerializers
+		SccLocalPath5 = PerfTests.GeneratedSerializers
+		SccProjectUniqueName6 = PerfTests.TestApp\\PerfTests.TestApp.csproj
+		SccProjectName6 = PerfTests.TestApp
+		SccLocalPath6 = PerfTests.TestApp
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2739CCE9-D027-42AB-B632-AAF44F2B4F29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2739CCE9-D027-42AB-B632-AAF44F2B4F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2739CCE9-D027-42AB-B632-AAF44F2B4F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2739CCE9-D027-42AB-B632-AAF44F2B4F29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D969D61B-10DE-4BB4-96FE-D20379B61B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D969D61B-10DE-4BB4-96FE-D20379B61B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D969D61B-10DE-4BB4-96FE-D20379B61B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D969D61B-10DE-4BB4-96FE-D20379B61B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E49E690-46DC-4085-AC7F-D83E4EA4BA8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E49E690-46DC-4085-AC7F-D83E4EA4BA8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E49E690-46DC-4085-AC7F-D83E4EA4BA8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E49E690-46DC-4085-AC7F-D83E4EA4BA8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E2C216-6A01-440D-8EC9-FBE52A7EEF4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E2C216-6A01-440D-8EC9-FBE52A7EEF4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E2C216-6A01-440D-8EC9-FBE52A7EEF4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E2C216-6A01-440D-8EC9-FBE52A7EEF4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30581588-EFDE-4842-986F-5952C9648DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30581588-EFDE-4842-986F-5952C9648DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30581588-EFDE-4842-986F-5952C9648DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30581588-EFDE-4842-986F-5952C9648DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408526B5-1A5E-4F27-9686-A0DB071F5983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408526B5-1A5E-4F27-9686-A0DB071F5983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408526B5-1A5E-4F27-9686-A0DB071F5983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408526B5-1A5E-4F27-9686-A0DB071F5983}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

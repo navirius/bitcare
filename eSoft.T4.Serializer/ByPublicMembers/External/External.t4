@@ -1,0 +1,71 @@
+﻿<#@ template language="C#" inherits="TextTransformation" hostSpecific="false" #>
+<#@ import namespace="eSoft.T4.Core" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#+ 
+private void External_Header(SerializedTypeDesc serializedTypeInfo)
+{
+#>
+// -----------------------------------------------------------------------------------------------------------------------------
+// This is file generated for external serialization of type <#= serializedTypeInfo.FullName #> - Don't modify it manually !!!
+// -----------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Security.Permissions;
+using eSoft.Serializer.Compression;
+
+namespace <#= SerializerNamespace #> 
+{
+    public partial class <#= SerializerClassName #> : eSoft.Serializer.Serializer
+    {
+<#+ 
+}
+
+private void External_Footer(SerializedTypeDesc serializedTypeInfo)
+{
+#>
+	}
+}
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// End of file definition for external serialization of type <#= serializedTypeInfo.FullName #>
+// -----------------------------------------------------------------------------------------------------------------------------
+
+<#+
+}
+
+//-----------------------------------   Main Serialization and Deserialization code   ------------------------------------------
+
+private void EX_Normal(SerializedTypeDesc info)
+{
+#>
+
+// Serialization of <#= info.FullName #> (strongly typed - no runtime reflection)
+public static byte[] Serialize_<#= info.SafeFullName #>(<#= info.FullName #> objectToSerialize, CompressionType compressionType = CompressionType.Internal, int compressionLevel = 1)
+{
+    <#= SerializerClassName #> mainSerializer = new <#= SerializerClassName #>();
+	mainSerializer.ActiveCompressionType = compressionType;
+	mainSerializer.ActiveCompressionLevel = compressionLevel;
+	
+    <#= info.SafeFullName #>Serializer objectSerializer = new <#= info.SafeFullName #>Serializer(mainSerializer, mainSerializer.RefObjectsCache, mainSerializer.ValObjectsCache);
+    objectSerializer.Serialize(objectToSerialize);
+
+    // Final result
+    return mainSerializer.ToByteArray();
+}
+
+// Deserialization of <#= info.FullName #>  (strongly typed - no runtime reflection)
+public static <#= info.FullName #>  Deserialize_<#= info.SafeFullName #>(byte[] serializedObject)
+{
+    <#= SerializerClassName #> mainSerializer = new <#= SerializerClassName #>();
+    mainSerializer.InitStoresFromSerializedData(serializedObject);
+
+    <#= info.SafeFullName #>Serializer objectDeserializer = new <#= info.SafeFullName #>Serializer(mainSerializer, mainSerializer.RefObjectsCache, mainSerializer.ValObjectsCache);
+    return objectDeserializer.Deserialize();
+}
+<#+ 
+}
+#>

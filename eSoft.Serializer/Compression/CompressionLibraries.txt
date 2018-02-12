@@ -1,0 +1,28 @@
+﻿QuickLZ - http://www.quicklz.com/order.html
+
+Response:
+Hi Aleksander,
+
+You don't need any license or further action until you exceed 1 employee :) 
+
+Greetings,
+
+Lasse Reinhold
+Developer
+www.quicklz.com
+ 
+
+Question:
+Den 28. oktober 2011 kl. 16:24 skrev stankiewiczal@yahoo.com: 
+
+ eSoft Aleksander Stankiewicz 
+ Jelitkowski Dwor 11 b/13, 
+ 80-365 Gdansk 
+ 
+ Poland 
+ PL8991458341 
+ Aleksander Stankiewicz 
+ stankiewiczal@yahoo.com 
+
+I'm owner (self employment) of small software company. I'd like to use your compression library with serializer for my future products. 
+Total empl. is 1 of course. Do I need  commercial license from you?

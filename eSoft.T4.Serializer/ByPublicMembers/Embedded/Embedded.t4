@@ -1,0 +1,396 @@
+﻿<#@ template language="C#" inherits="TextTransformation" hostSpecific="false" #>
+<#@ import namespace="eSoft.T4.Core" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#+
+private void Embedded_Header(SerializedTypeDesc serializedTypeInfo)
+{
+#>
+// -----------------------------------------------------------------------------------------------------------------------------
+// This is file generated for type <#= serializedTypeInfo.FullName #> - Don't modify it manually !!!
+// -----------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Reflection;
+using System.Reflection.Emit;
+using eSoft.Serializer;
+using eSoft.Serializer.Exceptions;
+using eSoft.Serializer.TypeSerializers;
+using eSoft.Serializer.TypeSerializers.WellKnown;
+using eSoft.Serializer.ObjectDictionaries.RefType;
+using eSoft.Serializer.ObjectDictionaries.ValType;
+using eSoft.Serializer.Infrastructure.PolimorphicType;
+using eSoft.Serializer.Infrastructure.Accessors;
+
+namespace <#= SerializerNamespace #> 
+{
+    public partial class  <#= serializedTypeInfo.SafeFullName #>Serializer : <#= ES_InheritanceChain(serializedTypeInfo) #>
+    {
+<#+
+}
+private void Embedded_Footer(SerializedTypeDesc serializedTypeInfo)
+{
+#>
+	}
+}
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// End of file definition for type <#= serializedTypeInfo.FullName #>
+// -----------------------------------------------------------------------------------------------------------------------------
+
+<#+
+}
+
+// --------------------------------- Initialization File - Header  -------------------------------------------------------------
+
+private void ES_InitializationFileHeader()
+{
+#>
+namespace <#= SerializerNamespace #>
+{
+    public partial class  <#= SerializerClassName #> : eSoft.Serializer.Serializer
+    {
+        // We call initialization for complex objects that have field accessors
+        public static void InitSerializers()
+        {
+<#+
+}
+
+// --------------------------------- Initialization File - Footer  -------------------------------------------------------------
+
+private void ES_InitializationFileFooter()
+{
+#>
+
+			// End of initialization code
+        }
+    }
+}
+<#+
+}
+
+// ------------------------------------  Constructor  --------------------------------------------------------------------------
+
+private void ES_Constructor(SerializedTypeDesc serializedTypeInfo)
+{
+#>
+// Constructor
+public <#= serializedTypeInfo.SafeFullName #>Serializer(ISerializerStorage serializerStorage, IRefTypeObjectsDictionary refObjectsCache, IValueTypeObjectsDictionary valObjectsCache) 
+			: base(serializerStorage, refObjectsCache, valObjectsCache) { }
+<#+
+}
+
+
+// Constructor params
+private string GetWKTConstructorParams(Type type)
+{
+	if(type==typeof(String))
+		return "SerializerStorage, ValObjectsCache";
+	
+	return "SerializerStorage";
+}
+
+// -----------------         Polimorphic Serialization            -----------------------------------------
+
+private void ES_FieldPolimorphicSerialization(string memberName, DerivedTypesDesc derivedTypesDesc)
+{
+#>
+
+// Polimorphic serialization for member <#= memberName #>
+private void Serialize_<#= memberName #>(<#= derivedTypesDesc.BaseType.FullName #> fieldValue)
+{
+<#+
+	List<SerializedTypeDesc> derTypes=new List<SerializedTypeDesc>(derivedTypesDesc.DerivedTypes);
+	derTypes.Add(derivedTypesDesc.BaseType); // Base type as the last one choice ...
+	
+	foreach(var derType in derTypes)
+	{
+		// Case for WKT
+		if(IsWellKnownType(derType))
+		{
+#>
+	// Is it <#= derType.FullName #>
+	if (fieldValue.GetType() == typeof(<#= derType.FullName #>))
+    {
+        SerializePolimorphicFieldType((int)<#= memberName #>_SerializedTypeId.TypeIs_<#= derType.SafeFullName #>);
+        new <#= derType.SafeName #>Serializer(<#= GetWKTConstructorParams(derType.Type) #>).Serialize((<#= derType.SafeName #>)fieldValue);
+		return;
+    }
+<#+ 
+		}
+		else
+		{
+		// Case for normal class
+#>
+    // Is it <#= derType.FullName #>
+    if (fieldValue.GetType() == typeof(<#= derType.FullName #>))
+    {
+        SerializePolimorphicFieldType((int)<#= memberName #>_SerializedTypeId.TypeIs_<#= derType.SafeFullName #>);
+        new <#= derType.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Serialize((<#= derType.SafeName #>)fieldValue);
+		return;
+    }
+<#+
+		}
+	}
+#>
+	// Throw an exception if we have unknown type
+    throw new UnknownPolymorphicTypeException("Type is " + fieldValue.GetType().FullName);
+}
+<#+ 
+}
+
+// -----------------         Polimorphic Deserialization            -----------------------------------------
+
+private void ES_FieldPolimorphicDeserialization(string memberName, DerivedTypesDesc derivedTypesDesc)
+{
+#>
+
+// Polimorphic deserialization - result is <#= derivedTypesDesc.BaseType.FullName #>
+private <#= derivedTypesDesc.BaseType.FullName #> Deserialize_<#= memberName #>()
+{
+    // Deserialize polimorphic type (for derived types)
+    <#= memberName #>_SerializedTypeId <#= memberName #>_TypeId = (<#= memberName #>_SerializedTypeId)DeserializePolimorphicFieldType();
+
+    // Deserialize polymorhic type
+    switch (<#= memberName #>_TypeId)
+    {
+	<#+ 
+	List<SerializedTypeDesc> derTypes=new List<SerializedTypeDesc>(derivedTypesDesc.DerivedTypes);
+	derTypes.Add(derivedTypesDesc.BaseType); // Base type as the last one choice ...
+	
+	foreach(var derType in derTypes)
+	{
+		// Case for WKT
+		if(IsWellKnownType(derType))
+		{
+	#>
+        case <#= memberName #>_SerializedTypeId.TypeIs_<#= derType.SafeFullName #>:
+            return new <#= derType.SafeName #>Serializer(<#= GetWKTConstructorParams(derType.Type) #>).Deserialize();
+			
+	<#+  
+		}
+		else
+		{
+		// Case for normal class
+	#>
+		case <#= memberName #>_SerializedTypeId.TypeIs_<#= derType.SafeFullName #>:
+            return new <#= derType.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Deserialize();
+			
+	<#+ 
+		}
+	}
+	#>
+        default:
+            return null;
+    }
+}
+<#+
+}
+
+// -----------------         Serialization            -----------------------------------------
+
+private void ES_Serialization(SerializedTypeDesc item)
+{
+#>
+
+// Serialization
+public void Serialize(<#= item.FullName #> serializedObject)
+{
+    // Do we have to store full data (when it's not null or cached object)?
+    if ( ! ShouldStoreFullData(serializedObject))
+        return;
+<#+ 
+	ES_SerializeMembers(item);
+#>
+}
+<#+
+}
+
+// -----------------         NormalWKT            -----------------------------------------
+
+private void ES_SerializeNormalWKTMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc memberItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - WellKnownType object
+	WKTSerializers.<#= memberItemTypeDesc.Type.Name #>.Serialize(serializedObject.<#= member.Name #>);
+<#+ 
+}
+
+// -----------------         NormalObject            -----------------------------------------
+
+private void ES_SerializeNormalObjectMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc memberItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - RefType object
+    new <#= memberItemTypeDesc.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Serialize(serializedObject.<#= member.Name #>);
+<#+
+}
+
+// -----------------         PolimorphicObject            -----------------------------------------
+private void ES_SerializePolimorphicMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc memberItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - Polimorphic serialization
+	Serialize_<#= member.Name #>(serializedObject.<#= member.Name #>);
+<#+
+}
+
+// -----------------         NormalWKTArray            -----------------------------------------
+
+private void ES_SerializeNormalWKTArrayMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc memberItemTypeDesc, SerializedTypeDesc elemItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - normal array of <#= elemItemTypeDesc.FullName #> elements
+	new SZRefArraySerializer< <#= elemItemTypeDesc.FullName #> >(SerializerStorage,
+	    elem => { WKTSerializers.<#= elemItemTypeDesc.Type.Name #>.Serialize(elem); },
+	    () => WKTSerializers.<#= elemItemTypeDesc.Type.Name #>.Deserialize()
+	    ).Serialize(serializedObject.<#= member.Name #>);
+<#+
+}
+
+
+// -----------------         NormalObjectArray            -----------------------------------------
+
+private void ES_SerializeNormalObjectArrayMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc memberItemTypeDesc, SerializedTypeDesc elemItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - normal array of <#= elemItemTypeDesc.FullName #> elements
+	new SZRefArraySerializer< <#= elemItemTypeDesc.FullName #> >(SerializerStorage,
+	    elem => { new <#= elemItemTypeDesc.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Serialize(elem); },
+	    () => new <#= elemItemTypeDesc.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Deserialize()
+	    ).Serialize(serializedObject.<#= member.Name #>);
+<#+
+}
+
+// -----------------         PolymorhicArray            -----------------------------------------
+
+private void ES_SerializePolymorphicArrayMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc, SerializedTypeDesc elemItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - polymorphic array of <#= elemItemTypeDesc.FullName #> elements
+	new SZRefArraySerializer< <#= elemItemTypeDesc.FullName #> >(SerializerStorage, Serialize_<#= member.Name #>, Deserialize_<#= member.Name #>).Serialize(serializedObject.<#= member.Name #>);
+<#+
+}
+
+// -----------------         Deserialization            -----------------------------------------
+
+private void ES_Deserialization(SerializedTypeDesc item)
+{
+#>
+
+public <#= item.FullName #> Deserialize()
+{
+    // Result object
+    <#= item.FullName #> result = new <#= item.FullName #>();
+
+    // Do we have to load full data (when it's not null or cached object)?
+    if ( ! ShouldLoadFullData(ref result))
+        return result;
+<#+ 
+	ES_DeserializeMembers(item);
+#>
+
+    // Update cache when necessary
+    UpdateRefObjectsCache(result);
+
+    // Return result
+    return result;
+}
+<#+
+}
+
+// -----------------         NormalWKT            -----------------------------------------
+
+private void ES_DeserializeNormalWKTMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - WKT Deserialization
+	<#= fieldItemTypeDesc.Type.Name #> <#= member.Name #>Value = WKTSerializers.<#= fieldItemTypeDesc.Type.Name #>.Deserialize();
+	result.<#= member.Name #> = <#= member.Name #>Value;
+<#+ 
+}
+
+// -----------------         NormalObject            -----------------------------------------
+
+private void ES_DeserializeNormalObjectMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - Normal Deserialization
+	<#= fieldItemTypeDesc.FullName #> <#= member.Name #>Value = new <#= fieldItemTypeDesc.FullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Deserialize();
+    result.<#= member.Name #> = <#= member.Name #>Value;
+<#+
+}
+
+// -----------------         PolymorphicObject            -----------------------------------------
+
+private void ES_DeserializePolymorphicMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - Polymorphic Deserialization
+    <#= fieldItemTypeDesc.FullName #> <#= member.Name #>Value = (<#= fieldItemTypeDesc.FullName #>) Deserialize_<#= member.Name #>();
+    result.<#= member.Name #> = <#= member.Name #>Value;
+<#+
+}
+
+// -----------------         NormalWKTArray            -----------------------------------------
+
+private void ES_DeserializeNormalWKTArrayMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc, SerializedTypeDesc elemItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - normal array of WKT elements - element type is <#= elemItemTypeDesc.FullName #>
+    <#= fieldItemTypeDesc.FullName #> <#= member.Name #>Value = new SZRefArraySerializer< <#= elemItemTypeDesc.FullName #> >(SerializerStorage,
+       elem => { WKTSerializers.<#= elemItemTypeDesc.Type.Name #>.Serialize(elem); },
+	    () => WKTSerializers.<#= elemItemTypeDesc.Type.Name #>.Deserialize()
+       ).Deserialize();
+    result.<#= member.Name #> = <#= member.Name #>Value;
+<#+
+}
+
+// -----------------         NormalObjectArray            -----------------------------------------
+
+private void ES_DeserializeNormalObjectArrayMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc, SerializedTypeDesc elemItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - the array of normal elements - element type is <#= elemItemTypeDesc.FullName #>
+    <#= fieldItemTypeDesc.FullName #> <#= member.Name #>Value = new SZRefArraySerializer< <#= elemItemTypeDesc.FullName #> >(SerializerStorage,
+        elem => { new <#= elemItemTypeDesc.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Serialize(elem); },
+	    () => new <#= elemItemTypeDesc.SafeFullName #>Serializer(SerializerStorage, ObjectCache, ValObjectsCache).Deserialize()
+        ).Deserialize();
+    result.<#= member.Name #> = <#= member.Name #>Value;
+<#+ 
+}
+
+// -----------------         PolymorhicArray            -----------------------------------------
+
+private void ES_DeserializePolymorphicArrayMember(SerializedTypeDesc item, MemberInfo member, SerializedTypeDesc fieldItemTypeDesc, SerializedTypeDesc elemItemTypeDesc)
+{
+#>
+
+	// <#= member.Name #> - deserialization for polymorphic array of <#= elemItemTypeDesc.FullName #> elements
+    <#= fieldItemTypeDesc.FullName #> <#= member.Name #>Value = new SZRefArraySerializer< <#= elemItemTypeDesc.FullName #> >(SerializerStorage, Serialize_<#= member.Name #>, Deserialize_<#= member.Name #>).Deserialize();
+    result.<#= member.Name #> = <#= member.Name #>Value;
+<#+ 
+}
+#>
+
+
+
+
+
+
+
+
+
+
+

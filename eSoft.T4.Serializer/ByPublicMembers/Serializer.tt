@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" inherits="TextTransformation" hostSpecific="false" #>
+<#@ import namespace="eSoft.T4.Core" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ include file="Core\Core.t4" #>
+<#@ include file="Embedded\Embedded.t4" #>
+<#@ include file="External\External.t4" #>
